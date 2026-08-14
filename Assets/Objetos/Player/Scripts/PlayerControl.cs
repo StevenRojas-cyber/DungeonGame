@@ -6,19 +6,21 @@ public class PlayerControl : MonoBehaviour
     [Header("Speed Movement")]
     [SerializeField] private float speed = 5f;
 
+    [Header("Components")]
+    [SerializeField] private GameObject AttackArea;
 
     private Vector2 moveDirection;
     private Vector2 lookDirection;
     private Rigidbody2D PlayerBody2D;
-    private SpriteRenderer spriteRenderer;
     private Transform characterTransform;
+    private Transform attackAreaTransform;
 
 
     void Start()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
         PlayerBody2D = GetComponent<Rigidbody2D>();
         characterTransform = GetComponent<Transform>();
+        attackAreaTransform = AttackArea.GetComponent<Transform>();
     }
 
     
@@ -47,7 +49,26 @@ public class PlayerControl : MonoBehaviour
 
         float angleOrientation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
-        characterTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleOrientation - 90f));
+        attackAreaTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleOrientation - 90f));
+        
+        float angleSnap = Mathf.Round(angleOrientation / 90f) * 90f;
 
+        characterTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleSnap - 90f));
+
+    }
+
+    public void Attack(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+          SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
+            areaColor.color = Color.red;
+
+        }
+        else
+        {
+            SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
+            areaColor.color = Color.white;
+        }
     }
 }
