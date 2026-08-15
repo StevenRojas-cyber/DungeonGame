@@ -8,6 +8,10 @@ public class PlayerControl : MonoBehaviour
 
     [Header("Components")]
     [SerializeField] private GameObject AttackArea;
+    [SerializeField] private GameObject FireBallPrefab;
+    [SerializeField] private Animator Anim;
+
+    private Vector2 lastMoveDirection;
 
     private Vector2 moveDirection;
     private Vector2 lookDirection;
@@ -26,16 +30,26 @@ public class PlayerControl : MonoBehaviour
     
     void Update()
     {
+        
+        Animate();
+
+    }
+
+    private void FixedUpdate()
+    {
         if (PlayerBody2D == null || characterTransform == null) return;
 
         Vector3 movement = new Vector3(moveDirection.x * speed, moveDirection.y * speed, 0);
         PlayerBody2D.linearVelocity = movement;
+        
+        //transform.rotation = Quaternion.identity;
     }
 
     public void Move(InputAction.CallbackContext context)
     {
        
         moveDirection = context.ReadValue<Vector2>();
+
     }
 
     public void Look(InputAction.CallbackContext context)
@@ -51,9 +65,17 @@ public class PlayerControl : MonoBehaviour
 
         attackAreaTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleOrientation - 90f));
         
+
         float angleSnap = Mathf.Round(angleOrientation / 90f) * 90f;
 
-        characterTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleSnap - 90f));
+        float rad = angleSnap * Mathf.Deg2Rad;
+        float LookX = Mathf.Round(Mathf.Cos(rad));
+        float LookY = Mathf.Round(Mathf.Sin(rad));
+
+        Anim.SetFloat("LookX", LookX);
+        Anim.SetFloat("LookY", LookY);
+
+        //characterTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleSnap - 90f));
 
     }
 
@@ -71,4 +93,23 @@ public class PlayerControl : MonoBehaviour
             areaColor.color = Color.white;
         }
     }
+
+    public void MagicAttack(InputAction.CallbackContext context)
+    {
+
+        if (context.started)
+        {
+           Instantiate(FireBallPrefab, attackAreaTransform.position, transform.rotation);
+           
+        }
+
+    }
+
+    void Animate()
+    {
+        if(Anim == null) return;
+
+        Anim.SetFloat("MoveMagnitude", moveDirection.magnitude);
+    }
+
 }
