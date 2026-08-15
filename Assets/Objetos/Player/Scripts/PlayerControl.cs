@@ -64,8 +64,11 @@ public class PlayerControl : MonoBehaviour
         float angleOrientation = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
         attackAreaTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleOrientation - 90f));
-        
 
+
+
+
+        //Animacion del personaje segun la direccion del mouse
         float angleSnap = Mathf.Round(angleOrientation / 90f) * 90f;
 
         float rad = angleSnap * Mathf.Deg2Rad;
@@ -99,7 +102,7 @@ public class PlayerControl : MonoBehaviour
 
         if (context.started)
         {
-           Instantiate(FireBallPrefab, attackAreaTransform.position, transform.rotation);
+           Instantiate(FireBallPrefab, attackAreaTransform.position, attackAreaTransform.rotation);
            
         }
 
