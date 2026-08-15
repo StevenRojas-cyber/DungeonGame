@@ -11,6 +11,7 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject FireBallPrefab;
     [SerializeField] private Animator Anim;
 
+    private bool ControlEnabled = true;
     private Vector2 lastMoveDirection;
 
     private Vector2 moveDirection;
@@ -45,15 +46,24 @@ public class PlayerControl : MonoBehaviour
         //transform.rotation = Quaternion.identity;
     }
 
+
+    //Funcion que habilita o deshabilita el control del jugador
+    public void SetControlEnabled(bool enabled)
+    {
+        ControlEnabled = enabled;
+    }
+
     public void Move(InputAction.CallbackContext context)
     {
-       
+        if(!ControlEnabled) return;
+
         moveDirection = context.ReadValue<Vector2>();
 
     }
 
     public void Look(InputAction.CallbackContext context)
     {
+        if (!ControlEnabled) return;
 
         Vector2 mouseScreenPosition = context.ReadValue<Vector2>();
 
@@ -84,13 +94,16 @@ public class PlayerControl : MonoBehaviour
 
     public void Attack(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (!ControlEnabled) return;
+
+        if (context.started)
         {
           SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
             areaColor.color = Color.red;
 
         }
-        else
+        
+        if(context.canceled)
         {
             SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
             areaColor.color = Color.white;
@@ -99,6 +112,7 @@ public class PlayerControl : MonoBehaviour
 
     public void MagicAttack(InputAction.CallbackContext context)
     {
+        if (!ControlEnabled) return;
 
         if (context.started)
         {

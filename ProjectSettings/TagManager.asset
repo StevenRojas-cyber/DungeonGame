@@ -8,6 +8,7 @@ TagManager:
   - AttackArea
   - WoodDoor
   - Wall
+  - Enemigo1
   layers:
   - Default
   - TransparentFX
@@ -19,7 +20,7 @@ TagManager:
   - AttackArea
   - Doors
   - Walls
-  - 
+  - Enemy
   - 
   - 
   - 
