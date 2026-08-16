@@ -1,13 +1,14 @@
 using UnityEngine;
 
-public class WoodDoor : MonoBehaviour, IInteractable, IDestructible
+public class WoodDoor : MonoBehaviour, IInteractable, IDestructible,IDamageable
 {
     [Header("Door Attributes")]
     [SerializeField] private int MagicDefense = 3;
+    [SerializeField] private float DoorMeleeHP = 30;
 
     void Start()
     {
-        
+        DoorMeleeHP = 30;
     }
 
     // Update is called once per frame
@@ -48,5 +49,20 @@ public class WoodDoor : MonoBehaviour, IInteractable, IDestructible
         {
             Debug.Log("Te falta nivel " + Interactor.GetComponent<FireBall>().GetMagicDamage());
         }
+    }
+
+    public void TakeDamage(float damage)
+    {
+        DoorMeleeHP -= damage;
+        if (DoorMeleeHP <= 0)
+        {
+            Kill();
+        }
+    }
+
+    public void Kill()
+    {
+        Debug.Log("Door destroyed");
+        Destroy(this.gameObject);
     }
 }

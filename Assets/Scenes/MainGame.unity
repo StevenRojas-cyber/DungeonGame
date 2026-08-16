@@ -1991,7 +1991,7 @@ MonoBehaviour:
   HealthBar: {fileID: 754907456}
   maxHealth: 100
   Keys: 0
-  MagicLevel: 1
+  MagicLevel: 2
 --- !u!58 &1245515386
 CircleCollider2D:
   m_ObjectHideFlags: 0
