@@ -2,12 +2,15 @@ using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
-    [Header("Prjectile Speed")]
-    [SerializeField] private float speed = 5f;
+    [Header("Projectile Speed")]
+    [SerializeField] private float speed;
+    [SerializeField] private float BaseDamage;
+    [SerializeField] private PlayerAttributes PlayerStats;
+
 
     private Rigidbody2D BodyProjectile;
-
     private Collider2D ProjectileHitBox;
+    private float FireBallLevel;
 
 
     void Start()
@@ -20,33 +23,29 @@ public class FireBall : MonoBehaviour
     void Update()
     {
         transform.position += transform.up * speed * Time.deltaTime;
+        FireBallLevel = PlayerStats.GetMagicLevel();
     }
+
+    public float GetMagicDamage()
+    {
+        return BaseDamage * FireBallLevel;
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-       string tag = collision.gameObject.tag;
+       if(collision == null) return;
 
-        switch (tag)
-        {
-            case "WoodDoor":
-                Destroy(collision.gameObject);
-                Destroy(this.gameObject);
-                break;
+       if(collision.gameObject.tag == "Player") return;
 
-            case "Wall":
-                Destroy(this.gameObject);
-                break;
+        collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(GetMagicDamage());
+       
+       collision.gameObject.GetComponent<IDestructible>()?.MagicDestroy(this.gameObject);
 
-            case "Enemigo1":
-                collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(5f);
-                Destroy(this.gameObject);
-                break;
-
-            case "Chest":
-                Destroy(this.gameObject);
-                break;
-
-        }
+        Destroy(this.gameObject);
+       
+       
     }
 
+   
 }

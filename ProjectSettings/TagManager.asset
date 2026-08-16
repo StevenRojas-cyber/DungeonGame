@@ -10,6 +10,7 @@ TagManager:
   - Wall
   - Enemigo1
   - Chest
+  - FireBall
   layers:
   - Default
   - TransparentFX

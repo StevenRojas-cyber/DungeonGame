@@ -8,18 +8,19 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float speed = 5f;
 
     [Header("Components")]
-    [SerializeField] private float AttackCooldown = 1f;
-    [SerializeField] private float SpecialAbilityCooldown = 3f;
+    [SerializeField] private float AttackCooldown;
+    [SerializeField] private float SpecialAbilityCooldown;
     [SerializeField] private GameObject AttackArea;
     [SerializeField] private GameObject FireBallPrefab;
     [SerializeField] private Animator Anim;
+    [SerializeField] private PlayerAttributes Stats;
+
 
     private bool CanInteact = false;
     private bool CanAttack = true;
     private bool ControlEnabled = true;
     private bool CanUseSpecialAbility = true;
     private Vector2 lastMoveDirection;
-
 
 
     private Vector2 moveDirection;
@@ -39,6 +40,7 @@ public class PlayerControl : MonoBehaviour
         InteractArea = GetComponent<CircleCollider2D>();
 
         AttackArea.GetComponent<Collider2D>().enabled = false;
+        
     }
 
     
@@ -46,6 +48,7 @@ public class PlayerControl : MonoBehaviour
     {
         
         Animate();
+ 
 
     }
 
@@ -56,8 +59,11 @@ public class PlayerControl : MonoBehaviour
         Vector3 movement = new Vector3(moveDirection.x * speed, moveDirection.y * speed, 0);
         PlayerBody2D.linearVelocity = movement;
         
-        //transform.rotation = Quaternion.identity;
     }
+
+  
+
+
 
 
     //Funcion que habilita o deshabilita el control del jugador
@@ -104,8 +110,6 @@ public class PlayerControl : MonoBehaviour
 
         Anim.SetFloat("LookX", LookX);
         Anim.SetFloat("LookY", LookY);
-
-        //characterTransform.rotation = Quaternion.Euler(new Vector3(0, 0, angleSnap - 90f));
 
     }
 
@@ -197,7 +201,6 @@ public class PlayerControl : MonoBehaviour
         if (collision.GetComponent<IInteractable>() != null)
         {
             CanInteact = true;
-            //Debug.Log("Player can interact with object");
             InteractebleObject = collision.gameObject;
         }
     }
@@ -207,7 +210,6 @@ public class PlayerControl : MonoBehaviour
         if (collision.GetComponent<IInteractable>() != null)
         {
             CanInteact = false;
-            //Debug.Log("Player can no longer interact with object");
             InteractebleObject = null;
         }
     }

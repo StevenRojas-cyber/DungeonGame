@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerAttributes : MonoBehaviour, IDamageable
 {
@@ -10,17 +11,35 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [SerializeField] private PlayerControl PlayerControlScript;
     [SerializeField] private TMP_Text HealthText;
     [SerializeField] private TMP_Text KeysText;
+    [SerializeField] private TMP_Text MagicLevelText;
+    [SerializeField] private Image HealthBar;
 
-    [Header("Player Attributes")]
-    [SerializeField] private float maxHealth = 100;
-    [SerializeField] private float currentHealth;
-    [SerializeField] private int Keys = 0;
+
+    [Header("Player Stats")]
+    [SerializeField] private float maxHealth;
+    [SerializeField] private int Keys;
+    [SerializeField] private int MagicLevel;
+
+    private float currentHealth;
+
+
+    void Start()
+    {
+        currentHealth = maxHealth;
+        HealthText.text = currentHealth.ToString();
+        KeysText.text = Keys.ToString();
+    }
+
+    void Update()
+    {
+       UpdateStatsUI();
+
+       
+    }
 
     public void GetKey()
     {
         Keys++;
-        KeysText.text = "Keys: " + Keys;
-        Debug.Log("Player has obtained a key. Total keys: " + Keys);
     }
 
     public void UseKey()
@@ -28,7 +47,6 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         if (Keys > 0)
         {
             Keys--;
-            KeysText.text = "Keys: " + Keys;
         }
     }
 
@@ -49,5 +67,19 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         {
             Kill();
         }
+    }
+
+    void UpdateStatsUI()
+    {
+        HealthText.text = currentHealth.ToString();
+        KeysText.text = Keys.ToString();
+        MagicLevelText.text = MagicLevel.ToString();
+
+        HealthBar.fillAmount = currentHealth / maxHealth;
+    }
+
+    public float GetMagicLevel()
+    {
+        return MagicLevel;
     }
 }

@@ -1,19 +1,10 @@
 using UnityEngine;
 
-public class WoodDoor : MonoBehaviour, IInteractable
+public class WoodDoor : MonoBehaviour, IInteractable, IDestructible
 {
-    public void Interact(GameObject Interactor)
-    {
-        if (Interactor == null) return;
+    [Header("Door Attributes")]
+    [SerializeField] private int MagicDefense = 3;
 
-        if(Interactor.GetComponent<PlayerAttributes>().KeysRemaining() > 0)
-        {
-            Interactor.GetComponent<PlayerAttributes>().UseKey();
-            OpenDoor();
-        }
-
-    }
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
@@ -25,10 +16,37 @@ public class WoodDoor : MonoBehaviour, IInteractable
         
     }
 
+    public void Interact(GameObject Interactor)
+    {
+        if (Interactor.gameObject.tag != "Player") return;
+
+        if(Interactor.GetComponent<PlayerAttributes>().KeysRemaining() > 0)
+        {
+            Interactor.GetComponent<PlayerAttributes>().UseKey();
+            OpenDoor();
+        }
+
+    }
+    // Start is called once before the first execution of Update after the MonoBehaviour is created
+
     void OpenDoor()
     {
         // Logic to open the door
-        Debug.Log("The door is now open.");
-        Destroy(gameObject);
+        Destroy(this.gameObject);
+    }
+
+    public void MagicDestroy(GameObject Interactor)
+    {
+        if(Interactor.gameObject.tag != "FireBall") return;
+
+        if(Interactor.GetComponent<FireBall>().GetMagicDamage() >= MagicDefense)
+        {
+            
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            Debug.Log("Te falta nivel " + Interactor.GetComponent<FireBall>().GetMagicDamage());
+        }
     }
 }
