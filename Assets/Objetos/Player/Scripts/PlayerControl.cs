@@ -132,18 +132,16 @@ public class PlayerControl : MonoBehaviour
         CanAttack = false;
 
         AttackArea.GetComponent<Collider2D>().enabled = true;
-        SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
-        areaColor.color = Color.red;
+        AttackArea.GetComponent<Animator>().SetBool("IsAttacking", true);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
 
         AttackArea.GetComponent<Collider2D>().enabled = false;
-        areaColor.color = Color.white;
+        AttackArea.GetComponent<Animator>().SetBool("IsAttacking", false);
 
         yield return new WaitForSeconds(cooldownTime);
 
         CanAttack = true;
-        areaColor.color = Color.blue;
     }
 
 
