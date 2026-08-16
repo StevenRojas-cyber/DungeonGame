@@ -1,7 +1,8 @@
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class PlayerAttributes : MonoBehaviour, IDamageable, IKillable
+public class PlayerAttributes : MonoBehaviour, IDamageable
 {
     [Header("Player Components")]
     [SerializeField] private Collider2D PlayerCollider;
@@ -13,7 +14,7 @@ public class PlayerAttributes : MonoBehaviour, IDamageable, IKillable
     [SerializeField] private float currentHealth;
     //[SerializeField] private int Keys = 0;
 
-
+    
 
     void Start()
     {

@@ -1,7 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MeleeEnemy : MonoBehaviour, IDamageable, IKillable
+public class MeleeEnemy : MonoBehaviour, IDamageable
 {
 
     [Header("Enemy Components")]
@@ -27,6 +27,8 @@ public class MeleeEnemy : MonoBehaviour, IDamageable, IKillable
     }
     public void TakeDamage(float damage)
     {
+        Debug.Log("Enemy took " + damage + " damage.");
+
         currentHealth -= damage;
         if (currentHealth <= 0)
         {

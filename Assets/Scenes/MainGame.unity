@@ -585,12 +585,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.91, y: 1.38, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1245515377}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &619394800
 GameObject:
@@ -938,6 +938,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1630265718}
+  - {fileID: 519420032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1245515378
@@ -953,6 +954,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: '::'
   speed: 5
+  AttackCooldown: 1
+  SpecialAbilityCooldown: 3
   AttackArea: {fileID: 1630265717}
   FireBallPrefab: {fileID: 316335917}
   Anim: {fileID: 1245515383}
@@ -968,7 +971,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 20
+  m_Mass: 5
   m_LinearDamping: 0
   m_AngularDamping: 0.05
   m_GravityScale: 0
@@ -1385,6 +1388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b13c1188aa3f2c4784bb82eb9883bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  MaxHealth: 100
 --- !u!1 &1307472613
 GameObject:
   m_ObjectHideFlags: 0
@@ -1653,6 +1657,7 @@ GameObject:
   - component: {fileID: 1630265718}
   - component: {fileID: 1630265719}
   - component: {fileID: 1630265720}
+  - component: {fileID: 1630265721}
   m_Layer: 7
   m_Name: AttackArea
   m_TagString: AttackArea
@@ -1780,6 +1785,19 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 4.6321135, y: 1.1778157}
   m_EdgeRadius: 0
+--- !u!114 &1630265721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630265717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69a0a9c77e0c22546a8e34063fb8fb85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  Atkcollider: {fileID: 1630265720}
 --- !u!1 &1651844996
 GameObject:
   m_ObjectHideFlags: 0
@@ -1950,7 +1968,6 @@ Rigidbody2D:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1519905266}
   - {fileID: 316335922}

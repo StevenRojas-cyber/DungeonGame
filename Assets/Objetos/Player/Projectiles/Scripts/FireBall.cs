@@ -37,6 +37,11 @@ public class FireBall : MonoBehaviour
                 Destroy(this.gameObject);
                 break;
 
+            case "Enemigo1":
+                collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(5f);
+                Destroy(this.gameObject);
+                break;
+
         }
     }
 

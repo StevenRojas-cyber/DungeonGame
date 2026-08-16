@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -7,11 +8,15 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private float speed = 5f;
 
     [Header("Components")]
+    [SerializeField] private float AttackCooldown = 1f;
+    [SerializeField] private float SpecialAbilityCooldown = 3f;
     [SerializeField] private GameObject AttackArea;
     [SerializeField] private GameObject FireBallPrefab;
     [SerializeField] private Animator Anim;
 
     private bool ControlEnabled = true;
+    private bool CanAttack = true;
+    private bool CanUseSpecialAbility = true;
     private Vector2 lastMoveDirection;
 
     private Vector2 moveDirection;
@@ -26,6 +31,8 @@ public class PlayerControl : MonoBehaviour
         PlayerBody2D = GetComponent<Rigidbody2D>();
         characterTransform = GetComponent<Transform>();
         attackAreaTransform = AttackArea.GetComponent<Transform>();
+
+        AttackArea.GetComponent<Collider2D>().enabled = false;
     }
 
     
@@ -53,6 +60,8 @@ public class PlayerControl : MonoBehaviour
         ControlEnabled = enabled;
     }
 
+
+    //Funciones de input de movimiento
     public void Move(InputAction.CallbackContext context)
     {
         if(!ControlEnabled) return;
@@ -61,6 +70,8 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+
+    //Funcion de mirar
     public void Look(InputAction.CallbackContext context)
     {
         if (!ControlEnabled) return;
@@ -92,27 +103,49 @@ public class PlayerControl : MonoBehaviour
 
     }
 
+
+
+
+
+    //Funciones de ataque
     public void Attack(InputAction.CallbackContext context)
     {
-        if (!ControlEnabled) return;
+        if (!ControlEnabled || !CanAttack) return;
 
         if (context.started)
         {
-          SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
-            areaColor.color = Color.red;
+
+            StartCoroutine(AttackSequence(AttackCooldown));
 
         }
-        
-        if(context.canceled)
-        {
-            SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
-            areaColor.color = Color.white;
-        }
+
     }
 
+    private IEnumerator AttackSequence(float cooldownTime)
+    {
+        CanAttack = false;
+
+        AttackArea.GetComponent<Collider2D>().enabled = true;
+        SpriteRenderer areaColor = AttackArea.GetComponent<SpriteRenderer>();
+        areaColor.color = Color.red;
+
+        yield return new WaitForSeconds(0.1f);
+
+        AttackArea.GetComponent<Collider2D>().enabled = false;
+        areaColor.color = Color.white;
+
+        yield return new WaitForSeconds(cooldownTime);
+
+        CanAttack = true;
+        areaColor.color = Color.blue;
+    }
+
+
+
+    //Funciones de ataque especial
     public void MagicAttack(InputAction.CallbackContext context)
     {
-        if (!ControlEnabled) return;
+        if (!ControlEnabled || !CanUseSpecialAbility) return;
 
         if (context.started)
         {
@@ -120,7 +153,19 @@ public class PlayerControl : MonoBehaviour
            
         }
 
+        StartCoroutine(SpecialAbilityColdown(SpecialAbilityCooldown));
     }
+
+
+    private IEnumerator SpecialAbilityColdown(float cooldownTime)
+    {
+        CanUseSpecialAbility = false;
+
+        yield return new WaitForSeconds(cooldownTime);
+
+        CanUseSpecialAbility = true;
+    }
+
 
     void Animate()
     {
