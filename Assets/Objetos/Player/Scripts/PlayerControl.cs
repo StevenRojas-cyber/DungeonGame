@@ -14,16 +14,21 @@ public class PlayerControl : MonoBehaviour
     [SerializeField] private GameObject FireBallPrefab;
     [SerializeField] private Animator Anim;
 
-    private bool ControlEnabled = true;
+    private bool CanInteact = false;
     private bool CanAttack = true;
+    private bool ControlEnabled = true;
     private bool CanUseSpecialAbility = true;
     private Vector2 lastMoveDirection;
+
+
 
     private Vector2 moveDirection;
     private Vector2 lookDirection;
     private Rigidbody2D PlayerBody2D;
     private Transform characterTransform;
     private Transform attackAreaTransform;
+    private CircleCollider2D InteractArea;
+    private GameObject InteractebleObject = null;
 
 
     void Start()
@@ -31,6 +36,7 @@ public class PlayerControl : MonoBehaviour
         PlayerBody2D = GetComponent<Rigidbody2D>();
         characterTransform = GetComponent<Transform>();
         attackAreaTransform = AttackArea.GetComponent<Transform>();
+        InteractArea = GetComponent<CircleCollider2D>();
 
         AttackArea.GetComponent<Collider2D>().enabled = false;
     }
@@ -166,7 +172,7 @@ public class PlayerControl : MonoBehaviour
         CanUseSpecialAbility = true;
     }
 
-
+    //Funciones de animacion
     void Animate()
     {
         if(Anim == null) return;
@@ -174,4 +180,37 @@ public class PlayerControl : MonoBehaviour
         Anim.SetFloat("MoveMagnitude", moveDirection.magnitude);
     }
 
+    
+
+    //Funcion de interaccion
+    public void Interact(InputAction.CallbackContext context)
+    {
+        if (!ControlEnabled || !CanInteact) return;
+        if(InteractebleObject == null) return;
+
+        if (context.started)
+        {
+            InteractebleObject.GetComponent<IInteractable>().Interact(gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.GetComponent<IInteractable>() != null)
+        {
+            CanInteact = true;
+            //Debug.Log("Player can interact with object");
+            InteractebleObject = collision.gameObject;
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.GetComponent<IInteractable>() != null)
+        {
+            CanInteact = false;
+            //Debug.Log("Player can no longer interact with object");
+            InteractebleObject = null;
+        }
+    }
 }

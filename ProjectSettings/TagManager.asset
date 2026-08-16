@@ -9,6 +9,7 @@ TagManager:
   - WoodDoor
   - Wall
   - Enemigo1
+  - Chest
   layers:
   - Default
   - TransparentFX
@@ -21,7 +22,7 @@ TagManager:
   - Doors
   - Walls
   - Enemy
-  - 
+  - Chests
   - 
   - 
   - 

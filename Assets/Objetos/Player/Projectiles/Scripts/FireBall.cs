@@ -42,6 +42,10 @@ public class FireBall : MonoBehaviour
                 Destroy(this.gameObject);
                 break;
 
+            case "Chest":
+                Destroy(this.gameObject);
+                break;
+
         }
     }
 
