@@ -24,11 +24,13 @@ public class FireBall : MonoBehaviour
     {
         transform.position += transform.up * speed * Time.deltaTime;
         FireBallLevel = PlayerStats.GetMagicLevel();
+
+        UpdateCurrentMagicDamage();
     }
 
-    public float GetMagicDamage()
+    public void UpdateCurrentMagicDamage()
     {
-        return BaseDamage * FireBallLevel;
+        BaseDamage = BaseDamage * FireBallLevel;
     }
 
 
@@ -38,14 +40,23 @@ public class FireBall : MonoBehaviour
 
        if(collision.gameObject.tag == "Player") return;
 
-        collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(GetMagicDamage());
-       
-       collision.gameObject.GetComponent<IDestructible>()?.MagicDestroy(this.gameObject);
+       if(collision.gameObject.CompareTag("WoodDoor"))
+
+        {
+            collision.gameObject.GetComponent<IDestructible>()?.MagicDestroy(this.gameObject);
+            Destroy(this.gameObject);
+            return;
+        }
+
+        collision.gameObject.GetComponent<IDamageable>()?.TakeDamage(BaseDamage);
 
         Destroy(this.gameObject);
        
        
     }
 
-   
+    public float GetCurrentMagicLevel()
+    {
+        return FireBallLevel;
+    }
 }

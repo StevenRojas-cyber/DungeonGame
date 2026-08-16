@@ -12,6 +12,7 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [SerializeField] private TMP_Text HealthText;
     [SerializeField] private TMP_Text KeysText;
     [SerializeField] private TMP_Text MagicLevelText;
+    [SerializeField] private TMP_Text MeleeLevelText;
     [SerializeField] private Image HealthBar;
 
 
@@ -19,6 +20,7 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [SerializeField] private float maxHealth;
     [SerializeField] private int Keys;
     [SerializeField] private int MagicLevel;
+    [SerializeField] private int MeleeLevel;
 
     private float currentHealth;
 
@@ -74,6 +76,7 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         HealthText.text = currentHealth.ToString();
         KeysText.text = Keys.ToString();
         MagicLevelText.text = MagicLevel.ToString();
+        MeleeLevelText.text = MeleeLevel.ToString();
 
         HealthBar.fillAmount = currentHealth / maxHealth;
     }
@@ -81,5 +84,10 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     public float GetMagicLevel()
     {
         return MagicLevel;
+    }
+
+    public float GetMeleeLevel()
+    {
+        return MeleeLevel;
     }
 }

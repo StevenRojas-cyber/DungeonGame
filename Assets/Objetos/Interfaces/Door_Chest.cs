@@ -9,4 +9,5 @@ public interface IInteractable
 public interface IDestructible
 {
     void MagicDestroy(GameObject Interactor);
+    void MeleeDestroy(GameObject Interactor);
 }
