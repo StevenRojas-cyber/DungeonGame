@@ -6,6 +6,14 @@ using UnityEngine.UI;
 
 public class PlayerAttributes : MonoBehaviour, IDamageable
 {
+    [Header("Player Stats")]
+    [SerializeField] private float maxHealth;
+    [SerializeField] private int Keys;
+    [SerializeField] private int MagicLevel;
+    [SerializeField] private int MeleeLevel;
+    [SerializeField] private float BaseMeleeDamage;
+    [SerializeField] private float BaseMagicDamage;
+
     [Header("Player Components")]
     [SerializeField] private Collider2D PlayerCollider;
     [SerializeField] private PlayerControl PlayerControlScript;
@@ -16,11 +24,6 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [SerializeField] private Image HealthBar;
 
 
-    [Header("Player Stats")]
-    [SerializeField] private float maxHealth;
-    [SerializeField] private int Keys;
-    [SerializeField] private int MagicLevel;
-    [SerializeField] private int MeleeLevel;
 
     private float currentHealth;
 
@@ -112,6 +115,11 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         MagicLevel += LevelUp;
     }
 
+    public float GetMagicBaseDamage()
+    {
+        return BaseMagicDamage;
+    }
+
 
 
 
@@ -123,6 +131,10 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     public void MeleeLevelUP(int LevelUP)
     {
         MeleeLevel += LevelUP;
+    }
+    public float GetMeleeBaseDamage()
+    {
+        return BaseMeleeDamage;
     }
 
 }

@@ -4,19 +4,22 @@ public class FireBall : MonoBehaviour
 {
     [Header("Projectile Attributes")]
     [SerializeField] private float speed;
-    [SerializeField] private float BaseDamage;
     [SerializeField] private PlayerAttributes PlayerStats;
 
 
     private Rigidbody2D BodyProjectile;
     private Collider2D ProjectileHitBox;
     private float FireBallLevel;
+    private float BaseDamage;
 
 
     void Start()
     {
         BodyProjectile = GetComponent<Rigidbody2D>();
         ProjectileHitBox = GetComponent<Collider2D>();
+
+        BaseDamage = PlayerStats.GetMagicBaseDamage();
+
     }
 
     
