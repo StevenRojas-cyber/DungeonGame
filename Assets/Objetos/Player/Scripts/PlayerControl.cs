@@ -62,7 +62,10 @@ public class PlayerControl : MonoBehaviour
     }
 
   
-
+    public void ActivateControls(bool state)
+    {
+        ControlEnabled = state;
+    }
 
 
 

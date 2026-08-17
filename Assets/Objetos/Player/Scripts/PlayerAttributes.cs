@@ -17,17 +17,26 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [Header("Player Components")]
     [SerializeField] private Collider2D PlayerCollider;
     [SerializeField] private PlayerControl PlayerControlScript;
+
     [SerializeField] private TMP_Text HealthText;
     [SerializeField] private TMP_Text KeysText;
     [SerializeField] private TMP_Text MagicLevelText;
     [SerializeField] private TMP_Text MeleeLevelText;
     [SerializeField] private Image HealthBar;
 
+    [Header("Player UI")]
+    [SerializeField] private Canvas PlayerCanvas;
+    [SerializeField] private Canvas GameOverCanvas;
+
+
     private float currentHealth;
 
 
     void Start()
     {
+        PlayerCanvas.enabled = true;
+        GameOverCanvas.enabled = false;
+
         currentHealth = maxHealth;
         HealthText.text = currentHealth.ToString();
         KeysText.text = Keys.ToString();
@@ -67,7 +76,13 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
 
     public void Kill()
     {
-        Debug.Log("Player has been killed.");
+        PlayerControlScript.SetControlEnabled(false);
+
+        PlayerCanvas.enabled = false;
+        GameOverCanvas.enabled = true;
+
+
+        Time.timeScale = 0;
     }
 
     public void TakeDamage(float damage)
@@ -75,6 +90,7 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         currentHealth -= damage;
         if(currentHealth <= 0)
         {
+            currentHealth = 0;
             Kill();
         }
     }

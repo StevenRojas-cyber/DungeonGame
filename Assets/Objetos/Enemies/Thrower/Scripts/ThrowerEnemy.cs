@@ -14,7 +14,6 @@ public class ThrowerEnemy : MonoBehaviour, IDamageable
     [SerializeField] private Rigidbody2D Enemybody2D;
     [SerializeField] private Animator EnemyAnimator;
     [SerializeField] private GameObject Rock;
-    [SerializeField] private Transform Target;
     [SerializeField] private GameObject ThrowOffset;
 
 
@@ -22,17 +21,21 @@ public class ThrowerEnemy : MonoBehaviour, IDamageable
     private bool DisableThrow = false;
     private float currentHealth;
     private Vector2 moveDirection;
+    private Transform Target;
 
 
     void Start()
     {
         currentHealth = MaxHealth;
-        
+
+        Target = GameObject.FindWithTag("Player").transform;
     }
 
     
     void Update()
     {
+        if (Target == null) return;
+
         moveDirection = (Target.position - transform.position).normalized;
         transform.position += (Vector3)moveDirection * Speed * Time.deltaTime;
 
