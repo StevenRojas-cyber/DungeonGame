@@ -4,12 +4,14 @@ using UnityEngine;
 public class Chest : MonoBehaviour, IInteractable
 {
     [Header("Dropplable Objects")]
-    [SerializeField] private GameObject[] Items;
+    [SerializeField] private bool NeedKey = false;
     [SerializeField] private float ItemsCount = 1;
+    [SerializeField] private GameObject[] Items;
+
 
     [Header("Drop Settings")]
     [SerializeField] private float scatterRange = 0.5f;
-    
+
 
 
     public void Interact(GameObject Interactor)
@@ -18,14 +20,33 @@ public class Chest : MonoBehaviour, IInteractable
 
         if (Items.Length == 0) return;
 
+        if (NeedKey == false)
+        {
+            OpenChest();
+            return;
+        }
+
+        if (Interactor.GetComponent<PlayerAttributes>().KeysRemaining() > 0)
+        {
+            Interactor.GetComponent<PlayerAttributes>().UseKey();
+
+            OpenChest();
+        }
+        else
+        {
+            Debug.Log("Necesitas llave!!");
+        }
+    }
+
+    private void OpenChest()
+    {
         for (int i = 0; i < ItemsCount; i++)
         {
             GameObject ItemToSpawn = GetRandomItem();
 
-            // Calculamos una posición ligeramente distinta para cada ítem
             Vector3 randomOffset = new Vector3(
                 Random.Range(-scatterRange, scatterRange),
-                Random.Range(-scatterRange,scatterRange),
+                Random.Range(-scatterRange, scatterRange),
                 0f);
 
             Instantiate(ItemToSpawn, transform.position + randomOffset, Quaternion.identity);

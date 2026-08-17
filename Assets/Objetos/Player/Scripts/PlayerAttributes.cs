@@ -23,8 +23,6 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
     [SerializeField] private TMP_Text MeleeLevelText;
     [SerializeField] private Image HealthBar;
 
-
-
     private float currentHealth;
 
 

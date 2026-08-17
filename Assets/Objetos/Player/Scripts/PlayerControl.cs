@@ -187,6 +187,7 @@ public class PlayerControl : MonoBehaviour
     //Funcion de interaccion
     public void Interact(InputAction.CallbackContext context)
     {
+        
         if (!ControlEnabled || !CanInteact) return;
         if(InteractebleObject == null) return;
 

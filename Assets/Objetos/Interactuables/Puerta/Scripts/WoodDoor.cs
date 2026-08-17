@@ -6,12 +6,7 @@ public class WoodDoor : MonoBehaviour, IInteractable, IDestructible,IDamageable
     [SerializeField] private int MagicDefense = 3;
     [SerializeField] private float MeleeDefense;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
+    
     void Update()
     {
         
