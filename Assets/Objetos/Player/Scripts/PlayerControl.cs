@@ -153,6 +153,7 @@ public class PlayerControl : MonoBehaviour
     //Funciones de ataque especial
     public void MagicAttack(InputAction.CallbackContext context)
     {
+       
         if (!ControlEnabled || !CanUseSpecialAbility) return;
 
         if (context.started)
