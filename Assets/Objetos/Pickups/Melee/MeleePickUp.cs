@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class LlavePickUp : MonoBehaviour, IPickUp
+public class MeleePickUp : MonoBehaviour
 {
+    [Header("PickUp Stats")]
+    [SerializeField] private int MeleeLevelsUp = 1;
+
     public void Effect(GameObject User)
     {
-        User.GetComponent<PlayerAttributes>().GetKey();
+        User.GetComponent<PlayerAttributes>().MeleeLevelUP(MeleeLevelsUp);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

@@ -1,10 +1,13 @@
 using UnityEngine;
 
-public class LlavePickUp : MonoBehaviour, IPickUp
+public class MagiaPickUp : MonoBehaviour
 {
+    [Header("PickUp Stats")]
+    [SerializeField] private int MagicLevelsUp = 1;
+
     public void Effect(GameObject User)
     {
-        User.GetComponent<PlayerAttributes>().GetKey();
+        User.GetComponent<PlayerAttributes>().MagicLevelUP(MagicLevelsUp);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
