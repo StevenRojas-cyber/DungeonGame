@@ -38,7 +38,7 @@ public class WoodDoor : MonoBehaviour, IInteractable, IDestructible,IDamageable
         if(Interactor.GetComponent<FireBall>().GetCurrentMagicLevel() >= MagicDefense)
         {
             
-            Destroy(this.gameObject);
+            OpenDoor();
         }
         else
         {
@@ -52,14 +52,14 @@ public class WoodDoor : MonoBehaviour, IInteractable, IDestructible,IDamageable
         
         if(Interactor.GetComponent<Attack>().GetCurrentMeleeLevel() >= MeleeDefense)
         {
-            Destroy(this.gameObject);
+            OpenDoor();
         }
         else
         {
-            Debug.Log("Te falta nivel " + Interactor.GetComponent<Attack>().GetCurrentMeleeLevel());
+            Debug.Log("Necesitas nivel:" + MeleeDefense.ToString() + "Tu nivel: " + Interactor.GetComponent<Attack>().GetCurrentMeleeLevel());
         }
     }
-
+    
 
     public void TakeDamage(float damage)
     {

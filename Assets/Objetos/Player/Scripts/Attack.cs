@@ -27,7 +27,7 @@ public class Attack : MonoBehaviour
     {
         if (Atkcollider == null) return;
         
-        if(collision.CompareTag("WoodDoor"))
+        if(collision.CompareTag("WoodDoor") || collision.CompareTag("Chest"))
         {
             collision.gameObject.GetComponent<IDestructible>()?.MeleeDestroy(this.gameObject);
             return;

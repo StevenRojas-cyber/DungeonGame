@@ -1,8 +1,13 @@
 using System.Collections;
 using UnityEngine;
 
-public class Chest : MonoBehaviour, IInteractable
+public class Chest : MonoBehaviour, IInteractable, IDestructible
 {
+    [Header("Chest Defense")]
+    [SerializeField] private float MeleeDefense = 1;
+    [SerializeField] private float MagicDefense = 1;
+
+
     [Header("Dropplable Objects")]
     [SerializeField] private bool NeedKey = false;
     [SerializeField] private float ItemsCount = 1;
@@ -61,4 +66,34 @@ public class Chest : MonoBehaviour, IInteractable
 
         return Items[randomIndex];
     }
+
+    public void MagicDestroy(GameObject Interactor)
+    {
+        if (Interactor.gameObject.tag != "FireBall") return;
+
+        if (Interactor.GetComponent<FireBall>().GetCurrentMagicLevel() >= MagicDefense)
+        {
+
+            OpenChest();
+        }
+        else
+        {
+            Debug.Log("Necesitas nivel: " + MagicDefense);
+        }
+    }
+
+    public void MeleeDestroy(GameObject Interactor)
+    {
+        if (Interactor.gameObject.tag != "AttackArea") return;
+
+        if (Interactor.GetComponent<Attack>().GetCurrentMeleeLevel() >= MeleeDefense)
+        {
+            OpenChest();
+        }
+        else
+        {
+            Debug.Log("Necesitas nivel:" + MeleeDefense.ToString() + " Tu nivel: " + Interactor.GetComponent<Attack>().GetCurrentMeleeLevel());
+        }
+    }
+
 }

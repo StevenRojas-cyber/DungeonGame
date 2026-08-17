@@ -43,7 +43,7 @@ public class FireBall : MonoBehaviour
 
        if(collision.gameObject.tag == "Player") return;
 
-       if(collision.gameObject.CompareTag("WoodDoor"))
+       if(collision.gameObject.CompareTag("WoodDoor") || collision.gameObject.CompareTag("Chest"))
 
         {
             collision.gameObject.GetComponent<IDestructible>()?.MagicDestroy(this.gameObject);
