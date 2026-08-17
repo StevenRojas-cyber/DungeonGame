@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FireBall : MonoBehaviour
 {
-    [Header("Projectile Speed")]
+    [Header("Projectile Attributes")]
     [SerializeField] private float speed;
     [SerializeField] private float BaseDamage;
     [SerializeField] private PlayerAttributes PlayerStats;

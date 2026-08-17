@@ -34,10 +34,11 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
 
     void Update()
     {
-       UpdateStatsUI();
-
-       
+        UpdateStatsUI();
     }
+
+
+
 
     public void GetKey()
     {
@@ -57,6 +58,12 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         return Keys;
     }
 
+
+
+
+
+
+
     public void Kill()
     {
         Debug.Log("Player has been killed.");
@@ -71,6 +78,18 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         }
     }
 
+    public void Heal(float HealCount)
+    {
+        currentHealth += HealCount;
+
+        if (currentHealth >= maxHealth)
+        {
+            currentHealth = maxHealth;
+        }
+
+    }
+
+
     void UpdateStatsUI()
     {
         HealthText.text = currentHealth.ToString();
@@ -81,13 +100,29 @@ public class PlayerAttributes : MonoBehaviour, IDamageable
         HealthBar.fillAmount = currentHealth / maxHealth;
     }
 
+
+
     public float GetMagicLevel()
     {
         return MagicLevel;
     }
+    
+    public void MagicLevelUP(int LevelUp)
+    {
+        MagicLevel += LevelUp;
+    }
+
+
+
+
 
     public float GetMeleeLevel()
     {
         return MeleeLevel;
     }
+    public void MeleeLevelUP(int LevelUP)
+    {
+        MeleeLevel += LevelUP;
+    }
+
 }

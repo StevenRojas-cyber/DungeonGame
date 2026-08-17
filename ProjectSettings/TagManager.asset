@@ -11,6 +11,12 @@ TagManager:
   - Enemigo1
   - Chest
   - FireBall
+  - Enemigo2
+  - Rock
+  - Vida
+  - Llave
+  - Melee
+  - Magia
   layers:
   - Default
   - TransparentFX
@@ -24,7 +30,7 @@ TagManager:
   - Walls
   - Enemy
   - Chests
-  - 
+  - PickUp
   - 
   - 
   - 

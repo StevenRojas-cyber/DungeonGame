@@ -4,29 +4,29 @@ using UnityEngine;
 public class MeleeEnemy : MonoBehaviour, IDamageable
 {
 
-    [Header("Enemy Components")]
+    [Header("Enemy Stats")]
     [SerializeField] private float MaxHealth;
     [SerializeField] private float Damage;
     [SerializeField] private float Speed;
 
-    private Rigidbody2D Enemybody2D;
-    private Transform Target;
+
+    [Header("Enemy Components")]
+    [SerializeField] private Rigidbody2D Enemybody2D;
+    [SerializeField] private Animator EnemyAnimator;
+    [SerializeField] private Transform Target;
+    [SerializeField] private Collider2D AttackHitbox;
+    
+    private bool CanAttack = false;
+    private float currentHealth;
     private Vector2 moveDirection;
 
-    private float currentHealth;
-
-
-    void Awake()
-    {
-        Enemybody2D = GetComponent<Rigidbody2D>();
-    }
+    private Transform AttackZone;
 
     void Start()
     {
         currentHealth = MaxHealth;
-
-        Target = GameObject.FindGameObjectWithTag("Player").transform;
-
+        AttackHitbox.enabled = false;
+        
     }
 
     
@@ -34,6 +34,10 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
     {
         moveDirection = (Target.position - transform.position).normalized;
         transform.position += (Vector3)moveDirection * Speed * Time.deltaTime;
+
+        CalculateDistance();
+        ManageAnimations();
+        LookAtPlayer();
     }
 
 
@@ -44,6 +48,7 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         Debug.Log("Enemy has been killed.");
         Destroy(gameObject);
     }
+
     public void TakeDamage(float damage)
     {
         Debug.Log("Enemy took " + damage + " damage.");
@@ -55,4 +60,67 @@ public class MeleeEnemy : MonoBehaviour, IDamageable
         }
     }
 
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Debug.Log("Player entered the attack area.");
+
+            other.GetComponent<IDamageable>().TakeDamage(Damage);
+        }
+    }
+
+    void ManageAnimations()
+    {
+        if (EnemyAnimator == null) return;
+
+        EnemyAnimator.SetBool("CanAttack", CanAttack);
+        EnemyAnimator.SetFloat("MoveMagnitude", moveDirection.magnitude);
+    }
+
+    void CalculateDistance()
+    {
+        float distance = (Target.position - transform.position).magnitude;
+        
+        if(distance < 2.5f)
+        {
+            CanAttack = true;
+        }
+        else
+        {
+            CanAttack = false;
+        }
+
+    }
+
+    void LookAtPlayer()
+    {
+        Vector2 direction = Target.position - transform.position;
+
+        float angle = Mathf.Atan2(direction.y, direction.x);
+
+        float LookX = Mathf.Cos(angle);
+        float LookY = Mathf.Sin(angle);
+
+        EnemyAnimator.SetFloat("LookX", LookX);
+        EnemyAnimator.SetFloat("LookY", LookY);
+    }
+
+    public void ActiveHitBox()
+    {
+        if (EnemyAnimator == null) return;
+
+        AttackHitbox.offset = Target.position;
+        AttackHitbox.enabled = true;
+    }
+
+    public void DeactiveHitBox()
+    {
+        if (EnemyAnimator == null) return;
+
+        AttackHitbox.offset = Target.position;
+        AttackHitbox.enabled = false;
+
+    }
 }
