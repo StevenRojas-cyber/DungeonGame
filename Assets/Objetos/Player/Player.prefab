@@ -397,7 +397,7 @@ MonoBehaviour:
   AttackCooldown: 1
   SpecialAbilityCooldown: 1.5
   AttackArea: {fileID: 2228436824885079164}
-  FireBallPrefab: {fileID: 0}
+  FireBallPrefab: {fileID: 1114214960639597916, guid: a05b351429273064685e84e08ac0bd20, type: 3}
   Anim: {fileID: 2754687422026017798}
   Stats: {fileID: 5471114147743396083}
 --- !u!114 &5471114147743396083
